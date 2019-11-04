@@ -1,18 +1,35 @@
 package de.hszg.luepke.dreamshare.user;
 
-import java.util.Collection;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.User;
 
-public class UserEntity extends User {
+@Entity
+public class UserEntity {
 
-	public UserEntity(String username, String password, boolean enabled, boolean accountNonExpired,
-			boolean credentialsNonExpired, boolean accountNonLocked,
-			Collection<? extends GrantedAuthority> authorities) {
-		super(username, password, enabled, accountNonExpired, credentialsNonExpired,
-				accountNonLocked, authorities);
-		// TODO Auto-generated constructor stub
+	@Id
+	@GeneratedValue
+	private Long id;
+
+	private String username;
+	private String password;
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -172730024812928125L;
+
+
+
+	public void setUsername(String username) {
+		this.username = username;
 	}
+
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
 
 }
