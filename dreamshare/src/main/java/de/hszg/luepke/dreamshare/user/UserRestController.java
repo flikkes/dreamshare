@@ -26,6 +26,6 @@ public class UserRestController {
 		userEntity.setUsername(user.getEmail());
 		userEntity.setPassword(user.getPassword());
 		ueRp.save(userEntity);
-		return new ResponseEntity<UserDTO>(user, HttpStatus.OK);
+		return new ResponseEntity<UserDTO>(user, HttpStatus.CREATED);
 	}
 }
