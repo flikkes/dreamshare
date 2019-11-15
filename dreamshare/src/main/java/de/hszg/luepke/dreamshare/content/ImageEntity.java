@@ -13,6 +13,8 @@ public class ImageEntity {
 	private Long id;
 	@Lob
 	private byte[] imageData;
+	private String href;
+	private boolean publicAccess;
 
 	public byte[] getImageData() {
 		return imageData;
@@ -22,6 +24,18 @@ public class ImageEntity {
 	}
 	public Long getId() {
 		return id;
+	}
+	public String getHref() {
+		return href;
+	}
+	public void setHref(String href) {
+		this.href = href;
+	}
+	public boolean isPublicAccess() {
+		return publicAccess;
+	}
+	public void setPublicAccess(boolean publicAccess) {
+		this.publicAccess = publicAccess;
 	}
 
 }
