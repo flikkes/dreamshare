@@ -5,6 +5,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Lob;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class ImageEntity {
 
@@ -12,6 +14,7 @@ public class ImageEntity {
 	@GeneratedValue
 	private Long id;
 	@Lob
+	@JsonIgnore
 	private byte[] imageData;
 	private String href;
 	private boolean publicAccess;
