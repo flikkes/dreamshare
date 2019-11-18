@@ -35,7 +35,6 @@ public class ContentRestController {
 			ieRp.save(imageEntity);
 			imageEntity.setHref(ServletUriComponentsBuilder.fromCurrentRequest().toUriString()+"/static/"+imageEntity.getId());
 			ieRp.save(imageEntity);
-//			final ImageDTO imageDTO = new ImageDTO(imageEntity.getId(), imageEntity.getHref(), imageEntity.isPublicAccess());
 			return ResponseEntity.status(HttpStatus.CREATED).body(imageEntity);
 		} catch (final IOException e) {
 			e.printStackTrace();

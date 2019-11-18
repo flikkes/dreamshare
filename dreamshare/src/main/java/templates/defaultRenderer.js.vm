@@ -1,0 +1,9 @@
+function renderer() {
+
+}
+
+function $entityClass.SimpleName () {
+    #foreach($field in $entityClass.DeclaredFields)
+        var $field.Name;
+    #end
+}
