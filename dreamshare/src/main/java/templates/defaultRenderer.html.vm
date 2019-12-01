@@ -1,0 +1,6 @@
+
+    <div id="imageApp">
+        <div v-for="img in imgs">
+            <img width="25%" height="25%" v-bind:src="img.href">
+        </div>
+    </div>

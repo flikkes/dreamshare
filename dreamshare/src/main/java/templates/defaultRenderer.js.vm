@@ -1,9 +1,31 @@
-function renderer() {
+var baseUrl = '$baseUrl';
 
-}
+        $(document).ready(function () {
+            var pagination = new pagination();
+            $.get(baseUrl + pagination.render()).done(function (result) {
+                console.log(result);
+                imageApp = new Vue({
+                    el: '#imageApp',
+                    data: {
+                        imgs: result
+                    }
+                });
+            });
+        });
 
-function $entityClass.SimpleName () {
-    #foreach($field in $entityClass.DeclaredFields)
-        var $field.Name;
-    #end
-}
+        function pagination() {
+            var page = 0;
+            var pagingSegment = "/of/";
+
+            function nxt() {
+                this.page ++;
+            }
+
+            function prv() {
+                this.page --;
+            }
+
+            function render() {
+                return pagingSegment + page;
+            }
+        }
