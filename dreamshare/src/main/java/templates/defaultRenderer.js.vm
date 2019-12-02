@@ -1,31 +1,39 @@
-var baseUrl = '$baseUrl';
+		function Renderer(elem) {
+			var htmlContent = 
+			'<div v-for="img in imgs">' +
+            	'<img width="25%" height="25%" v-bind:src="img.href">' +
+        	'</div>';
+        	
+            this.inject = function() {
+            	console.log('injected!');
+            	$(elem).append(htmlContent);
+        		var pagination = new Pagination();
+        	
+            	$.get('$baseUrl' + pagination.render()).done(function (result) {
+                	console.log(result);
+                	imageApp = new Vue({
+                    	el: elem,
+                    	data: {
+                        	imgs: result
+                    	}
+                	});
+            	});
+            }
+        }
 
-        $(document).ready(function () {
-            var pagination = new pagination();
-            $.get(baseUrl + pagination.render()).done(function (result) {
-                console.log(result);
-                imageApp = new Vue({
-                    el: '#imageApp',
-                    data: {
-                        imgs: result
-                    }
-                });
-            });
-        });
-
-        function pagination() {
+        function Pagination() {
             var page = 0;
             var pagingSegment = "/of/";
 
-            function nxt() {
-                this.page ++;
+            this.nxt = function() {
+                page ++;
             }
 
-            function prv() {
-                this.page --;
+            this.prv = function() {
+                page --;
             }
 
-            function render() {
+            this.render = function() {
                 return pagingSegment + page;
             }
         }

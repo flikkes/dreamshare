@@ -39,20 +39,4 @@ public class RendererRestController {
         t.merge(context, writer);
         return ResponseEntity.ok(writer.toString());
     }
-
-    @GetMapping("template")
-    public ResponseEntity<?> getTemplate(@RequestParam String rendererName) {
-        VelocityEngine ve = new VelocityEngine();
-        ve.setProperty(RuntimeConstants.RESOURCE_LOADER, "classpath");
-        ve.setProperty("classpath.resource.loader.class", ClasspathResourceLoader.class.getName());
-        ve.init();
-
-        Template t = ve.getTemplate("templates/defaultRenderer.html.vm");
-
-        VelocityContext context = new VelocityContext();
-
-        StringWriter writer = new StringWriter();
-        t.merge(context, writer);
-        return ResponseEntity.ok(writer.toString());
-    }
 }
