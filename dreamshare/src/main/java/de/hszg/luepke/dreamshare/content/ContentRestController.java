@@ -24,6 +24,8 @@ public class ContentRestController {
 
 	@Autowired
 	private ImageEntityRepository ieRp;
+	@Autowired
+	private CommentEntityRepository ceRp;
 
 	@PostMapping("image")
 	public ResponseEntity<?> uploadImage(@RequestBody final MultipartFile image) {
@@ -33,7 +35,11 @@ public class ContentRestController {
 			imageEntity.setImageData(bytes);
 			imageEntity.setPublicAccess(false);
 			ieRp.save(imageEntity);
-			imageEntity.setHref(ServletUriComponentsBuilder.fromCurrentRequest().toUriString()+"/static/"+imageEntity.getId());
+			imageEntity.setHref(
+					ServletUriComponentsBuilder.fromCurrentRequest().toUriString() + "/static/" + imageEntity.getId());
+			imageEntity.setCommentsHref(
+					ServletUriComponentsBuilder.fromCurrentRequest().toUriString().replace("/image", "") + "/comment/"
+							+ imageEntity.getId() + "/of/0");
 			ieRp.save(imageEntity);
 			return ResponseEntity.status(HttpStatus.CREATED).body(imageEntity);
 		} catch (final IOException e) {
@@ -41,7 +47,7 @@ public class ContentRestController {
 			return new ResponseEntity<String>("Couldn't read image", HttpStatus.BAD_REQUEST);
 		}
 	}
-	
+
 	@GetMapping("image/{id}")
 	public ResponseEntity<?> getImageEntity(@PathVariable Long id) {
 		final Optional<ImageEntity> opt = ieRp.findById(id);
@@ -59,10 +65,37 @@ public class ContentRestController {
 		}
 		return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(opt.get().getImageData());
 	}
-	
+
 	@GetMapping("image/of/{page}")
 	public ResponseEntity<?> getAllOfPage(@PathVariable final int page) {
 		final List<ImageEntity> images = ieRp.findAll(PageRequest.of(page, 10));
 		return ResponseEntity.ok(images);
+	}
+
+	@PostMapping("comment/{imageId}")
+	public ResponseEntity<?> postComment(@PathVariable final Long imageId, final String text) {
+		final Optional<ImageEntity> imgOpt = ieRp.findById(imageId);
+		if (!imgOpt.isPresent()) {
+			return ResponseEntity.notFound().build();
+		}
+		final ImageEntity ie = imgOpt.get();
+		final CommentEntity comment = new CommentEntity(null, text, 0, ie);
+		ceRp.save(comment);
+		return ResponseEntity.status(HttpStatus.CREATED).body(comment);
+	}
+
+	@GetMapping("comment/{id}")
+	public ResponseEntity<?> getComment(@PathVariable final Long id) {
+		final Optional<CommentEntity> ceOpt = ceRp.findById(id);
+		if (!ceOpt.isPresent()) {
+			return ResponseEntity.notFound().build();
+		}
+		return ResponseEntity.ok(ceOpt.get());
+	}
+
+	@GetMapping("comment/{imageId}/of/{page}")
+	public ResponseEntity<?> getCommentsOfImage(@PathVariable final Long imageId, @PathVariable final int page) {
+		final List<CommentEntity> comments = ceRp.findByImageId(imageId, PageRequest.of(page, 10));
+		return ResponseEntity.ok(comments);
 	}
 }
