@@ -1,35 +1,24 @@
 package de.hszg.luepke.dreamshare.user;
 
+import lombok.Data;
+
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 
 @Entity
+@Data
 public class UserEntity {
 
 	@Id
 	@GeneratedValue
 	private Long id;
-
+	@Column(nullable = false, unique = true)
 	private String username;
+	@Column(nullable = false)
 	private String password;
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -172730024812928125L;
-
-
-
-	public void setUsername(String username) {
-		this.username = username;
-	}
-
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
 
 
 }

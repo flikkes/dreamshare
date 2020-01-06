@@ -1,4 +1,52 @@
 package de.hszg.luepke.dreamshare.user;
 
-public class DreamUserPrincipal {
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import java.util.Collection;
+
+public class DreamUserPrincipal implements UserDetails {
+
+    final String username;
+    final String password;
+
+    public DreamUserPrincipal(final UserEntity userEntity) {
+        this.username = userEntity.getUsername();
+        this.password = userEntity.getPassword();
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return null;
+    }
+
+    @Override
+    public String getPassword() {
+        return this.password;
+    }
+
+    @Override
+    public String getUsername() {
+        return this.username;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
 }
