@@ -22,10 +22,11 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 
-	@Override
-	protected void configure(HttpSecurity http) throws Exception {
-		http.authorizeRequests().antMatchers("/user*").permitAll().anyRequest().authenticated().and().httpBasic().and().csrf().disable();
-	}
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http.authorizeRequests().antMatchers("/user*").permitAll().anyRequest().authenticated()
+                .and().httpBasic().and().csrf().disable();
+    }
 
     @Bean
     public DaoAuthenticationProvider authProvider() {
@@ -39,8 +40,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-	
-	@Bean
+
+    @Bean
     public UserDetailsService userDetailsService() {
         DreamUserDetailsService service = new DreamUserDetailsService();
         return service;
