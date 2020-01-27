@@ -1,23 +1,15 @@
 package de.hszg.luepke.dreamshare.user;
 
 import lombok.Data;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import org.springframework.data.annotation.Id;
 
 
-@Entity
 @Data
 public class UserEntity {
 
 	@Id
-	@GeneratedValue
-	private Long id;
-	@Column(nullable = false, unique = true)
+	private String id;
 	private String username;
-	@Column(nullable = false)
 	private String password;
 
 

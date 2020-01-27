@@ -1,39 +1,42 @@
-		function Renderer(elem) {
-			var htmlContent = 
-			'<div v-for="img in imgs">' +
-            	'<img width="25%" height="25%" v-bind:src="img.href">' +
-        	'</div>';
-        	
-            this.inject = function() {
-            	console.log('injected!');
-            	$(elem).append(htmlContent);
-        		var pagination = new Pagination();
-        	
-            	$.get('$baseUrl' + pagination.render()).done(function (result) {
-                	console.log(result);
-                	imageApp = new Vue({
-                    	el: elem,
-                    	data: {
-                        	imgs: result
-                    	}
-                	});
-            	});
-            }
-        }
+function Renderer(elem) {
+    var htmlContent =
+        '<div v-for="img in imgs">' +
+        '<img width="25%" height="25%" v-bind:src="img.href"><br>' +
+        '<img width="25%" height="25%" v-show="img.transformedHref" v-bind:src="img.transformedHref"><br>'
+    '</div>';
 
-        function Pagination() {
-            var page = 0;
-            var pagingSegment = "/of/";
+    this.pagination = new Pagination();
 
-            this.nxt = function() {
-                page ++;
-            }
+    this.inject = function () {
+        console.log('injected!');
+        $(elem).append(htmlContent);
+        var that = this;
 
-            this.prv = function() {
-                page --;
-            }
+        $.get('$baseUrl' + that.pagination.render()).done(function (result) {
+            console.log(result);
+            imageApp = new Vue({
+                el: elem,
+                data: {
+                    imgs: result
+                }
+            });
+        });
+    }
+}
 
-            this.render = function() {
-                return pagingSegment + page;
-            }
-        }
+function Pagination() {
+    var page = 0;
+    var pagingSegment = "/of/";
+
+    this.nxt = function () {
+        page++;
+    }
+
+    this.prv = function () {
+        page--;
+    }
+
+    this.render = function () {
+        return pagingSegment + page;
+    }
+}
