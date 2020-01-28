@@ -50,7 +50,7 @@ public class TransformerRestController {
         return ResponseEntity.ok(img.getTransformedImageId());
     }
 
-    @GetMapping(value = "{id}")
+    @GetMapping(value = "static/{id}")
     public ResponseEntity<?> getTransformedImage(@PathVariable final String id) throws IOException {
         final ImageEntity img = imageEntityRepository.findById(id).get();
         if (img.getTransformedImageId() != null && img.getTransformedHref() == null) {

@@ -33,8 +33,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.addFilter(new JwtAuthorizationFilter(authenticationManager(), jwtAudience, jwtIssuer, jwtSecret))
                 .addFilter(new JwtAuthenticationFilter(authenticationManager(), jwtAudience, jwtIssuer, jwtSecret))
-                .authorizeRequests().antMatchers("/user*", "/login").permitAll().anyRequest().authenticated().and()
-                .csrf().disable().sessionManagement().sessionCreationPolicy(
+                .authorizeRequests()
+                .antMatchers("/user*", "/login", "/user/login", "/content/image/static/**", "/transform/static/**")
+                .permitAll().anyRequest()
+                .authenticated().and()
+                .cors().and().csrf().disable().sessionManagement().sessionCreationPolicy(
                 SessionCreationPolicy.STATELESS);
     }
 
